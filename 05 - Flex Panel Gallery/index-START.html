@@ -64,6 +64,9 @@
       font-family: 'Amatic SC', cursive;
       text-shadow: 0 0 4px rgba(0, 0, 0, 0.72), 0 0 14px rgba(0, 0, 0, 0.45);
       font-size: 2em;
+      transition-property: flex;
+      transition-duration: 1s;
+
     }
 
     .panel p:nth-child(2) {
@@ -72,6 +75,42 @@
 
     .panel.open {
       font-size: 40px;
+    }
+
+    .panels {
+      display: flex;
+    }
+
+    .panel {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-evenly;
+      flex-grow: 1;
+      overflow:hidden;
+    }
+
+
+    .panel:hover {
+      flex-grow: 3;
+    }
+
+    .panel:hover p:nth-child(2) {
+      flex-grow: 0;
+    }
+
+    .panel p:nth-child(2) {
+      color: red;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content:space-around;
+    }
+
+    .panel p:nth-child(1) {
+      transform: translateY(-100%);
+    }
+    .panel p:nth-child(3) {
+      transform: translateY(100%);
     }
 
   </style>
