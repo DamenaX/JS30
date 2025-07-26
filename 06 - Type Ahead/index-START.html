@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Type Ahead 👀</title>
   <link rel="stylesheet" href="style.css">
   <link rel="icon" href="https://fav.farm/🔥" />
 </head>
+
 <body>
 
   <form class="search-form">
@@ -15,9 +17,82 @@
       <li>or a state</li>
     </ul>
   </form>
-<script>
-const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
+  <script>
+    const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
+    const search = document.querySelector(".search");
+    const suggestions = document.querySelector(".suggestions");
+    let suggestionList = [];
+    let fetchVersion = 0;
 
-</script>
+    search.addEventListener("input", updateSuggestions);
+    search.addEventListener("keydown", updateSuggestions);
+
+
+
+    function updateSuggestions() {
+      let currentVersion = ++fetchVersion;
+      suggestions.innerHTML = "";
+      if (!search.value) {
+        suggestions.innerHTML = "<li>Filter for a city</li> <li>or a state</li>";
+      }
+
+      let query = search.value.toLowerCase().trim();
+      fetch(endpoint)
+        .then(res => res.json())
+        .then(list => {
+          if (currentVersion !== fetchVersion) return;
+
+          suggestionList = [];
+          suggestionList = list.filter((city) => {
+            let cityName = city.city.toLowerCase().trim();
+            let stateName = city.state.toLowerCase().trim();
+            if (cityName.includes(query) && query != "" || stateName.includes(query) && query != "") {
+              return true; 
+            } else return false;
+          });
+
+          for (city of suggestionList) {
+            let suggestionCard = document.createElement("li");
+
+            // TODO: Debug uneccesary space around the highlighted part of the text
+
+            let cityName = city.city.replace(query, `<span class="hl">${query}</span>`) || city.city;
+            let stateName = city.state.toLowerCase().replace(query, `<span class="hl">${query}</span>`) || city.state;
+
+            console.log("city: ", city.city)
+            console.log("cityName: ", cityName)
+            console.log("stateName: ", stateName)
+
+            suggestionCard.innerHTML = `${cityName}, ${stateName}`
+
+            suggestions.append(suggestionCard);
+          }
+        });
+    }
+
+    function capitalize(str) {
+      let words = [];
+      let prevIndex = 0;
+      for (let i = 0; i < str.length; i++) {
+        char = str[i];
+        if (char === " ") {
+          let index = i;
+          console.log("excuting! index: ", index, "prevIndex: ", prevIndex)
+          words.push(str.slice(0 + prevIndex,index));
+          prevIndex = index + 1;
+          console.log("prevIndx updated to: ", prevIndex)
+        }
+        else if (i === str.length - 1) {
+          words.push(str.slice(0 + prevIndex));
+        }
+      }
+      words.forEach((word, index) => {
+        let capWord = word.replace(word[0], word[0].toUpperCase());
+        words[index] = capWord;
+      })
+      return String(words).replaceAll(/,(?=[A-Za-z])/g, " ")
+    }
+  </script>
 </body>
+
 </html>
