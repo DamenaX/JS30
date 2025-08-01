@@ -58,7 +58,26 @@
         if (callNow) func.apply(context, args);
       };
     }
+    const images = document.querySelectorAll(".slide-in")
 
+    function slide(e) {
+      let bottomline = window.innerHeight + window.scrollY;
+      console.log("Bottom Line: ", bottomline);
+      images.forEach(image => {
+        let slideThreshold = bottomline - image.height / 2;
+        let isHalfShown = slideThreshold > image.offsetTop;
+        let imageBottom = image.offsetTop + image.height;
+        let isNotScrolledPast = window.scrollY < imageBottom;
+
+        if (isHalfShown && isNotScrolledPast) {
+          image.classList.add("active");
+        } else {
+          image.classList.remove("active");
+        }
+      })
+    }
+
+    window.addEventListener("scroll", debounce(slide));
   </script>
 
   <style>
