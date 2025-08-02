@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Mouse Shadow</title>
   <link rel="icon" href="https://fav.farm/🔥" />
 </head>
+
 <body>
 
   <div class="hero">
@@ -12,30 +14,60 @@
   </div>
 
   <style>
-  html {
-    color: black;
-    font-family: sans-serif;
-  }
+    html {
+      color: black;
+      font-family: sans-serif;
+    }
 
-  body {
-    margin: 0;
-  }
+    body {
+      margin: 0;
+    }
 
-  .hero {
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: black;
-  }
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: black;
+    }
 
-  h1 {
-    text-shadow: 10px 10px 0 rgba(0,0,0,1);
-    font-size: 100px;
-  }
+    h1 {
+      text-shadow: 10px 10px 0 rgba(0, 0, 0, 1);
+      font-size: 100px;
+    }
   </style>
 
-<script>
-</script>
+  <script>
+    const text = document.querySelector("h1");
+    const container = document.querySelector(".hero");
+    [shadow1, shadow2, shadow3, shadow4] = [text.cloneNode(), text.cloneNode(), text.cloneNode(), text.cloneNode()];
+    let shadows = [shadow1, shadow2, shadow3, shadow4];
+    let colors = ["red", "green", "blue", "yellow"];
+    shadows.forEach((shadow, index, arr) => {
+      shadow.style.position = "absolute";
+      shadow.style.opacity = "50%";
+      shadow.style.color = colors[index];
+      shadow.textContent = "🔥WOAH!";
+      // 
+    })
+
+    function animateShadows(e) {
+      shadows.forEach((shadow) => {container.prepend(shadow)});
+      console.log(-e.offsetY);
+      shadow1.style.transform = `translateXY(${e.offsetX}px)`
+      shadow1.style.transform = `translateX(${-e.offsetY}px)`
+      shadow2.style.transform = `translateX(${-e.offsetX}px)`
+      shadow2.style.transform = `translateY(${-e.offsetY}px)`
+      shadow3.style.transform = `translateY(${-e.offsetY}px)`
+      shadow3.style.transform = `translateX(${e.offsetX}px)`
+      shadow4.style.transform = `translateX(${-e.offsetY}px)`
+      shadow4.style.transform = `translateY(${-e.offsetX}px)`
+      // console.log(e);
+    }
+
+
+    window.addEventListener("mousemove", animateShadows)
+  </script>
 </body>
+
 </html>
