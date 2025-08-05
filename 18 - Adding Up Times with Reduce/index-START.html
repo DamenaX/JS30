@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Videos</title>
   <link rel="icon" href="https://fav.farm/🔥" />
 </head>
+
 <body>
   <ul class="videos">
     <li data-time="5:43">
@@ -182,7 +184,29 @@
       Video 58
     </li>
   </ul>
-<script>
-</script>
+  <script>
+    const videos = document.querySelectorAll("ul li");
+    const durations = [];
+    videos.forEach((video) => {
+      durations.push(video.dataset.time);
+    })
+
+    function formatTime(timeArr) {
+      timeArr[1] += Math.floor(timeArr[2] / 60);
+      timeArr[0] += Math.floor(timeArr[1] / 60);
+      timeArr[1] = timeArr[1] % 60;
+      timeArr[2] = timeArr[2] % 60;
+      return timeArr;
+    }
+
+    let length = durations.reduce((acc, videoLength) => {
+      let [hours, minutes, seconds] = [acc[0], acc[1], acc[2]];
+      minutes += parseInt(videoLength.slice(0,videoLength.indexOf(":")));
+      seconds += parseInt(videoLength.slice(videoLength.indexOf(":")+1));
+      return [hours,minutes,seconds];
+    }, [0,0,0]);
+    length = formatTime(length);
+  </script>
 </body>
+
 </html>
