@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Click and Drag</title>
   <link rel="stylesheet" href="style.css">
   <link rel="icon" href="https://fav.farm/🔥" />
 </head>
+
 <body>
   <div class="items">
     <div class="item item1">01</div>
@@ -35,8 +37,23 @@
     <div class="item item25">25</div>
   </div>
 
-<script>
-</script>
+  <script>
+    const bar = document.querySelector(".items");
+    let isMouseHeld = false;
 
-  </body>
+    function scrollByMouse(e) {
+      console.log(e.pageX);
+      bar.scrollTo(e.pageX, 0);
+    }
+
+    bar.addEventListener("mousedown", () => {isMouseHeld = true});
+    bar.addEventListener("mouseup", () => {isMouseHeld = false});
+    // bar.addEventListener("mouseleave", () => {isMouseHeld = false});
+    bar.addEventListener("mousemove", (e) => {isMouseHeld && scrollByMouse(e)});
+    
+
+  </script>
+
+</body>
+
 </html>
